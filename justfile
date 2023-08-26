@@ -1,5 +1,9 @@
 LOCKFILE := "package-lock.json"
 
+update:
+    git submodule update --recursive --remote
+    cd packages && git checkout master && git pull
+
 build:
     turbo build
 renew:
