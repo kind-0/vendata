@@ -42,7 +42,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ndk/ndk-svelte
       '@nostr-dev-kit/ndk-svelte-components':
-        specifier: 0.8.21-1
+        specifier: workspace:*
         version: link:../../packages/ndk/ndk-svelte-components
       '@tailwindcss/typography':
         specifier: ^0.5.9
@@ -610,7 +610,7 @@ importers:
         version: 0.8.18
       '@nostr-dev-kit/ndk-svelte-components':
         specifier: ^0.8.18-1
-        version: 0.8.18(postcss@8.4.28)(prettier@3.0.2)(svelte@4.2.0)(typescript@5.2.2)
+        version: link:../ndk/ndk-svelte-components
     devDependencies:
       '@highlighter/eslint-config-custom':
         specifier: '*'
@@ -3328,47 +3328,6 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
-
-  /@nostr-dev-kit/ndk-svelte-components@0.8.18(postcss@8.4.28)(prettier@3.0.2)(svelte@4.2.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-aiP1ndSrk4tCwVLIm7eJV+785z3HFjj99lhGp7iz7oCOJZ4z7eE5ZrHrQEkhAgRofEnz0nwJ2DU0R/hzdMRYHA==}
-    peerDependencies:
-      svelte: ^4.1
-    dependencies:
-      '@nostr-dev-kit/ndk': 0.8.18(typescript@5.2.2)
-      '@trivago/prettier-plugin-sort-imports': 4.2.0(prettier@3.0.2)
-      classnames: 2.3.2
-      hurdak: github.com/ConsignCloud/hurdak/91a8e9364123876715a1986c1d2dfc07eece20bf
-      isomorphic-dompurify: 1.8.0
-      lucide-svelte: 0.268.0(svelte@4.2.0)
-      marked: 7.0.3
-      marked-gfm-heading-id: 3.0.6(marked@7.0.3)
-      marked-mangle: 1.1.2(marked@7.0.3)
-      nostr-tools: 1.14.2
-      ramda: 0.29.0
-      rehype-autolink-headings: 6.1.1
-      rehype-slug: 5.1.0
-      svelte: 4.2.0
-      svelte-preprocess: 5.0.4(postcss-load-config@4.0.1)(postcss@8.4.28)(svelte@4.2.0)(typescript@5.2.2)
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@vue/compiler-sfc'
-      - bufferutil
-      - canvas
-      - coffeescript
-      - eslint-import-resolver-typescript
-      - eslint-import-resolver-webpack
-      - less
-      - postcss
-      - postcss-load-config
-      - prettier
-      - pug
-      - sass
-      - stylus
-      - sugarss
-      - supports-color
-      - typescript
-      - utf-8-validate
-    dev: false
 
   /@nostr-dev-kit/ndk-svelte@0.8.18:
     resolution: {integrity: sha512-3O9lcpmdvEhux2J/aLCRtrp7A9Jg6LXwRXupW1QgQfdvT3ugXATaJW25fgXnqn1iREY6us5uwy/5v/c5sZNHEg==}
@@ -7319,6 +7278,12 @@ packages:
   /dotenv@16.0.3:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
+    dev: false
+
+  /dotenv@16.3.1:
+    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
+    engines: {node: '>=12'}
+    dev: true
 
   /duplexify@3.7.1:
     resolution: {integrity: sha512-07z8uv2wMyS51kKhD1KsdXJg5WQ6t93RneqRxUHnskXVtlYYkLqM0gqStQZ3pj073g687jPCHrqNfCzawLYh5g==}
@@ -10447,7 +10412,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       app-root-dir: 1.0.2
-      dotenv: 16.0.3
+      dotenv: 16.3.1
       dotenv-expand: 10.0.0
     dev: true
 
@@ -11984,10 +11949,6 @@ packages:
     resolution: {integrity: sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==}
     engines: {node: '>=8'}
 
-  /ramda@0.28.0:
-    resolution: {integrity: sha512-9QnLuG/kPVgWvMQ4aODhsBUFKOUmnbUnsSXACv+NCQZcHbeb+v8Lodp8OVxtRULN1/xOyYLLaL6npE6dMq5QTA==}
-    dev: false
-
   /ramda@0.29.0:
     resolution: {integrity: sha512-BBea6L67bYLtdbOqfp8f58fPMqEwx0doL+pAi8TZyp2YWz8R9G8z9x75CZI8W+ftqhFHCpEX2cRnUUXK130iKA==}
 
@@ -13182,6 +13143,7 @@ packages:
       strip-indent: 3.0.0
       svelte: 4.2.0
       typescript: 5.2.2
+    dev: true
 
   /svelte-time@0.8.0:
     resolution: {integrity: sha512-V0LBpJhYV2Q+jqiJ94ITAo51P6RIhrHQpDt3LCSk8PXfL2UMvSMlDzkqHq8mdKqmBCRZURnXhpynN03GQa/G/A==}
@@ -14171,11 +14133,6 @@ packages:
     engines: {node: '>= 0.4.0'}
     dev: true
 
-  /uuid@8.3.2:
-    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
-    hasBin: true
-    dev: false
-
   /uuid@9.0.0:
     resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
@@ -14762,12 +14719,3 @@ packages:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
     dev: true
-
-  github.com/ConsignCloud/hurdak/91a8e9364123876715a1986c1d2dfc07eece20bf:
-    resolution: {tarball: https://codeload.github.com/ConsignCloud/hurdak/tar.gz/91a8e9364123876715a1986c1d2dfc07eece20bf}
-    name: hurdak
-    version: 0.0.5
-    dependencies:
-      ramda: 0.28.0
-      uuid: 8.3.2
-    dev: false
