@@ -1,4 +1,4 @@
-LOCKFILE := "package-lock.json"
+LOCKFILE := "pnpm-lock.yaml"
 
 branches:
     @echo "Current branch: `git branch --show-current`" \
