@@ -26,3 +26,6 @@ renew:
     fi \
     && find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \; \
     && pnpm i
+
+compile-ndk:
+    ./ndk_compile.sh
