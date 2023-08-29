@@ -1,6 +1,6 @@
 <script lang="ts">
-	import AttentionButton from "$components/buttons/AttentionButton.svelte";
-import type { NDKDVMJobResult, NDKEvent } from "@nostr-dev-kit/ndk";
+	import {AttentionButton} from "@kind0/ui-common";
+    import type { NDKDVMJobResult, NDKEvent } from "@nostr-dev-kit/ndk";
     import { requestProvider } from 'webln';
 
     export let event: NDKDVMJobResult | NDKEvent;
@@ -16,6 +16,7 @@ import type { NDKDVMJobResult, NDKEvent } from "@nostr-dev-kit/ndk";
     }
 
     async function pay() {
+        console.log('pay')
         if (!amountInMsats) return;
 
         try {

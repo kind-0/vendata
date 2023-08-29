@@ -44,6 +44,7 @@
 		"@nostr-dev-kit/ndk-cache-redis": "workspace:*",
 		"@nostr-dev-kit/ndk-svelte": "workspace:*",
 		"@nostr-dev-kit/ndk-svelte-components": "workspace:*",
+		"@kind0/ui-common": "workspace:*",
 		"@tailwindcss/typography": "^0.5.9",
 		"daisyui": "^3.6.1",
 		"nostr-tools": "^1.14.2",

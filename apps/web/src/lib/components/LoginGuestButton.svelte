@@ -4,7 +4,7 @@
     import { currentUser } from '$stores/current-user';
     // import { setupPlaceholderProfile } from './LoginModal/placeholder-profile';
     import KeyIcon from '$lib/icons/Key.svelte';
-    import AttentionButton from '$lib/components/buttons/AttentionButton.svelte';
+    import {AttentionButton} from '@kind0/ui-common';
 
     async function loginAsGuest() {
         const pk = NDKPrivateKeySigner.generate();
@@ -20,7 +20,7 @@
 </script>
 
 <AttentionButton handleClick={loginAsGuest}>
-    <div slot="btn-content" class="flex items-center gap-2">
+    <div class="flex items-center gap-2">
         <KeyIcon />
         <span >Continue as Guest</span>
     </div>

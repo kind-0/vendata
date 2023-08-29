@@ -1,14 +1,13 @@
 <script lang="ts">
 	import type { NDKDVMJobResult, NDKTag } from "@nostr-dev-kit/ndk";
     import ndk from "$stores/ndk";
-	import JobStatusLabel from "./JobStatusLabel.svelte";
 	import { Avatar, EventContent, Name, UserCard } from "@nostr-dev-kit/ndk-svelte-components";
-	import Time from "svelte-time/src/Time.svelte";
 	import { onMount } from "svelte";
 	import { markEventAsSeen } from "$stores/notifications";
 
     export let event: NDKDVMJobResult;
     export let dontMarkAsSeen: boolean = false;
+    export let expanded = false;
 
     const status = event.tagValue("status");
 
@@ -22,46 +21,43 @@
         }
     }
 
-    const timestamp = event.created_at!*1000;
-
-    function useRelativeTime() {
-        const now = Date.now();
-        const diff = now - timestamp;
-
-        return diff < 1000*60*60*24;
-    }
-
     let decodedContent: NDKTag[] | undefined;
 
     try {
         decodedContent = JSON.parse(event.content);
     } catch (e) {}
 
-    function shouldRestrictResultHeight() {
-        return (
+    let shouldRestrictResultHeight: boolean;
+
+    $: shouldRestrictResultHeight = (
             !contentIsImageUrl() &&
             event.jobRequest?.kind !== 65006
-        )
-    }
+        ) || (
+            decodedContent && decodedContent.length > tagsToDisplay
+        );
 
     onMount(() => {
         if (!dontMarkAsSeen) markEventAsSeen(event.id);
     })
+
+    let tagsToDisplay = expanded ? 9999 : 3;
 </script>
 
 <div class="
     flex flex-row w-full items-center whitespace-normal
     {event.kind === 65001 ? "text-base" : ""}
 ">
-    <div class="flex-grow overflow-y-auto overflow-x-clip
-        {shouldRestrictResultHeight() ? "max-h-48" : ""}
+    <div class="flex-grow overflow-x-clip
+        {shouldRestrictResultHeight ? "max-h-48 overflow-y-hidden" : "overflow-y-auto "}
     ">
         {#if event.kind === 65001 && contentIsImageUrl()}
             <img src={event.content} class={$$props.imageClass} />
-        {:else if event.jobRequest?.kind === 65006}
+        {:else if event.jobRequest?.kind && [65006, 65007].includes(event.jobRequest?.kind)}
             {#if decodedContent}
-                <div class="flex flex-col divide-y divide-y-base-300">
-                    {#each decodedContent as tag}
+                <div
+                    class="flex flex-col divide-y divide-base-300"
+                >
+                    {#each decodedContent.slice(0, tagsToDisplay) as tag}
                         <div class="flex flex-row gap-4 p-2">
                             {#if tag[0] === "p"}
                                 <UserCard ndk={$ndk} pubkey={tag[1]} class="" />
@@ -74,11 +70,33 @@
                             {/if}
                         </div>
                     {/each}
+
+                    {#if decodedContent.length > tagsToDisplay}
+                        <button
+                            class="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-base-300 bg-opacity-40 group w-full"
+                            on:click={() => tagsToDisplay = decodedContent.length}
+                        >
+                            <div class="flex flex-row items-center justify-center p-2">
+                                <button class="btn btn-ghost bg-base-300 !rounded-full group-hover:bg-base-200">
+                                    {decodedContent.length} items
+                                </button>
+                            </div>
+                        </button>
+
+                        <div class="
+                            flex flex-row justify-center p-2 absolute bottom-0 left-0 right-0
+                            h-12
+                            bg-gradient-to-t from-base-300 to-transparent
+                        ">
+                        </div>
+                    {/if}
+
                 </div>
             {:else}
                 {event.content}
             {/if}
         {:else}
+                {event.jobRequest?.kind}
             <EventContent ndk={$ndk} {event} showMedia={true} />
         {/if}
     </div>

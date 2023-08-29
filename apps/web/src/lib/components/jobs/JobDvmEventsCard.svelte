@@ -12,8 +12,6 @@
 	import JobStatusLabel from "./JobStatusLabel.svelte";
 	import PaymentRequiredButton from "./PaymentRequiredButton.svelte";
 	import DvmListItem from "$components/dvms/DvmListItem.svelte";
-	import SubtleButton from "$components/buttons/SubtleButton.svelte";
-	import AttentionButton from "$components/buttons/AttentionButton.svelte";
 
     export let jobRequest: NDKDVMRequest;
     export let dvmPubkey: string;

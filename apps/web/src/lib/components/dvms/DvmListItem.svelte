@@ -6,6 +6,11 @@
 
     export let dvm: NDKEvent;
 
+    /**
+     * Event that should be referrenced in the card (if different than the app handler event)
+     */
+    export let event: NDKEvent | undefined = dvm;
+
     const user = dvm.author;
     const kTag = dvm.tagValue("k");
     let supportedKind: number;
@@ -21,7 +26,6 @@
     }
 
     const profilePromise = new Promise((resolve) => {
-        dvm.fet
         if (profile?.name && profile?.image) {
             resolve(profile);
         } else {
@@ -33,7 +37,7 @@
 </script>
 
 {#await profilePromise then}
-    <div class="flex flex-row gap-4 w-full card card-compact image-full !rounded-2xl">
+    <div class="flex flex-row gap-4 w-full card card-compact image-full md:!rounded-2xl overflow-hidden">
         <figure>
             <Avatar ndk={$ndk} userProfile={profile} {user} class="h-full bg-accent2" />
         </figure>
@@ -42,11 +46,11 @@
                 <div class="flex flex-col gap-2 whitespace-normal w-full">
                     <div class="flex flex-row justify-between dropdown dropdown-end">
                         <Name ndk={$ndk} userProfile={profile} {user} class="text-xl text-base-100-content truncate font-semibold" />
-                        <EventCardDropdownMenu ndk={$ndk} event={dvm}>
+                        <EventCardDropdownMenu ndk={$ndk} {event}>
 
                         </EventCardDropdownMenu>
                     </div>
-                    <div class="text-base max-h-96 overflow-clip overflow-y-auto">
+                    <div class="text-base max-h-48 md:max-h-96 overflow-clip overflow-y-auto">
                         <EventContent
                             ndk={$ndk}
                             event={new NDKEvent(undefined, {

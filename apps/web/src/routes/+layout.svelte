@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { userTaggedEvents } from '$stores/jobRequests';
 	import { initJobRequests, userJobRequests } from '$stores/jobRequests';
 	import ndk from '$stores/ndk';
 	import { onMount } from 'svelte';
@@ -10,14 +9,12 @@
 	import { Modals, closeModal } from 'svelte-modals'
 	import { fade } from 'svelte/transition';
 	import { initNotifications } from '$stores/notifications';
-	import { GitPullRequest, Rss, Sparkle } from 'phosphor-svelte';
-	import { page } from '$app/stores';
 
 	onMount(async () => {
         try {
             $ndk.connect();
 
-			if (localStorage.getItem('nostr-login') === 'nip07') {
+			if (localStorage.getItem('nostr-key-method') === 'nip07') {
 				await login();
 			}
         } catch (e) {
@@ -31,7 +28,7 @@
 		$currentUser.ndk = $ndk;
 
 		if ($currentUser) {
-			localStorage.setItem('nostr-login', 'nip07');
+			localStorage.setItem('nostr-key-method', 'nip07');
 		}
 	}
 
