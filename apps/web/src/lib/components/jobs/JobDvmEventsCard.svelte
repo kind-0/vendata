@@ -105,7 +105,7 @@
 				</div>
 
 				<div class="flex flex-col items-center md:flex-row gap-4">
-					<div class="flex flex-col divide-y divide-base-300">
+					<div class="flex flex-col divide-y divide-base-300 flex-grow">
 						<div class="p-4">
 							{profile?.about}
 						</div>
@@ -123,7 +123,7 @@
 					<div class="p-3">
 						<PaymentRequiredButton
 							event={paymentPendingEvent}
-							class="!uppercase whitespace-nowrap flex-nowrap !text-lg"
+							class="!uppercase whitespace-nowrap flex-nowrap !text-base w-full"
 						/>
 					</div>
 
