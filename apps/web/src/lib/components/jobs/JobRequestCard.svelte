@@ -103,8 +103,10 @@
 					<Name ndk={$ndk} pubkey={jobRequest.pubkey} class="font-semibold" />
 				</span>
 				requested
-				<JobTypeIcon {kind} />
-				{kindToText(kind)}
+				<div class="flex items-center gap-2" >
+					<JobTypeIcon {kind} /> {kind}
+					{kindToText(kind)}
+				</div>
                 {extraJobInfoText}
 			</div>
 		</div>
@@ -175,10 +177,13 @@
 </EventCard>
 
 {#if Object.keys(dvms).length > 0}
-	<div class="pl-5 lg:pl-10 xl:pl-12 z-[11]">
-		<div class="grid grid-cols-2 gap-4">
+	<div class="pl-5 pr-2 lg:pl-10 xl:pl-12 z-[11]">
+		<h3 class="text-white font-bold text-3xl mb-3" >{Object.keys(dvms).length} DVM's responded</h3>
+		<div class="flex flex-col gap-4 ">
+		<!-- <div class="grid grid-cols-2 gap-4"> -->
 			{#each Object.entries(dvms) as [dvmPubkey, events]}
 				<JobDvmEventsCard {jobRequest} {dvmPubkey} {events} />
+
 			{/each}
 		</div>
 	</div>
