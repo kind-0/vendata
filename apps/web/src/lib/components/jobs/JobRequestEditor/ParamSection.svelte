@@ -2,7 +2,7 @@
 	import type { NDKDvmParam, NDKEvent } from '@nostr-dev-kit/ndk';
     import JobRequestEditorParameters65002 from './JobRequestEditorParameters65002.svelte';
 	import type { Nip90Param } from '$utils/nip90';
-	import { fade } from 'svelte/transition';
+	import ParamInput from './ParamInput.svelte';
 
     export let params: NDKDvmParam[] = [];
     export let kind: number;
@@ -10,24 +10,23 @@
 
     let dvmParams: Record<string, Nip90Param> = {};
 
-    nip89Events.forEach((nip89Event) => {
+    nip89Events?.forEach((nip89Event) => {
         try {
             const content = JSON.parse(nip89Event.content);
             const nip90Params: Record<string, Nip90Param>[] = content.nip90Params;
 
-            console.log(nip90Params)
-
             // go through each param and add it to the dvmParams object so that if there are multiple values inside the Nip90Param for the same name, all of them are added
-            for (const [name, params] of Object.entries(nip90Params)) {
-                console.log('values', params.values);
-                if (dvmParams[name] && params.values) {
-                    dvmParams[name].values ??= [];
-                    dvmParams[name].values!.push(...params.values);
-                } else {
-                    dvmParams[name] = params;
+            if (nip90Params) {
+                for (const [name, params] of Object.entries(nip90Params)) {
+                    if (dvmParams[name] && params.values) {
+                        dvmParams[name].values ??= [];
+                        dvmParams[name].values!.push(...params.values);
+                    } else {
+                        dvmParams[name] = params;
 
-                    if (name === 'negative_prompt' || name === 'ratio') {
-                        dvmParams[name].required = true;
+                        if (name === 'negative_prompt' || name === 'ratio') {
+                            dvmParams[name].required = true;
+                        }
                     }
                 }
             }
@@ -38,41 +37,34 @@
         }
     })
 
-    const showParamMenu: Record<string, boolean> = {};
-    const paramValues: Record<string, string> = {};
+    function updateTags() {
+        params = [];
+        for (const [ name, value ] of Object.entries(paramValues)) {
+            if (value && value.length > 0) {
+                const p: NDKDvmParam = [name, value[0], ...value.slice(1)];
+                params.push(p);
+            }
+        }
+        params = params;
+    }
 
-    let showAllParams = false;
+    let paramValues: Record<string, string[]> = {};
 </script>
 
 <div class="flex flex-col gap-2 mb-4">
     {#each Object.keys(dvmParams) as paramName}
         {#if dvmParams[paramName].required}
-            <div class="flex flex-row gap-2">
-                <p>{paramName}</p>
-                <div class="dropdown">
-                    <input
-                        tabindex="0"
-                        class="input input-bordered input-sm"
-                        bind:value={paramValues[paramName]}
-                        on:focus={() => showParamMenu[paramName] = true}
-                        on:blur={() => setTimeout(() => {showParamMenu[paramName] = false}, 20)}
-                    />
-                    {#if dvmParams[paramName].values && dvmParams[paramName].values.length > 0 && showParamMenu[paramName]}
-                        <ul class="dropdown-content menu z-[1] p-2 shadow bg-base-100 rounded-box" transition:fade={{duration:100}}>
-                            {#each dvmParams[paramName].values as value}
-                                <li>
-                                    <button on:click={() => paramValues[paramName] = value}>{value}</button>
-                                </li>
-                            {/each}
-                        </ul>
-                    {/if}
-                </div>
-            </div>
+            <ParamInput
+                name={paramName}
+                bind:value={paramValues[paramName]}
+                values={dvmParams[paramName].values || []}
+                on:change={updateTags}
+            />
         {/if}
     {/each}
 
     {#if kind === 65002}
-        <JobRequestEditorParameters65002 params={params} />
+        <JobRequestEditorParameters65002 bind:range={paramValues["range"]} on:change={updateTags} />
     {/if}
 </div>
 
@@ -94,29 +86,12 @@
     <div class="collapse-content">
         <div class="flex flex-col gap-2">
             {#each Object.keys(dvmParams) as paramName}
-                {#if !dvmParams[paramName].required}
-                    <div class="flex flex-row gap-2">
-                        <p>{paramName}</p>
-                        <div class="dropdown">
-                            <input
-                                tabindex="0"
-                                class="input input-bordered input-sm"
-                                bind:value={paramValues[paramName]}
-                                on:focus={() => showParamMenu[paramName] = true}
-                                on:blur={() => setTimeout(() => {showParamMenu[paramName] = false}, 20)}
-                            />
-                            {#if dvmParams[paramName].values && dvmParams[paramName].values.length > 0 && showParamMenu[paramName]}
-                                <ul class="dropdown-content menu z-[1] p-2 shadow bg-base-100 rounded-box" transition:fade={{duration:100}}>
-                                    {#each dvmParams[paramName].values as value}
-                                        <li>
-                                            <button on:click={() => paramValues[paramName] = value}>{value}</button>
-                                        </li>
-                                    {/each}
-                                </ul>
-                            {/if}
-                        </div>
-                    </div>
-                {/if}
+                <ParamInput
+                    name={paramName}
+                    bind:value={paramValues[paramName]}
+                    values={dvmParams[paramName].values || []}
+                    on:change={updateTags}
+                />
             {/each}
         </div>
     </div>

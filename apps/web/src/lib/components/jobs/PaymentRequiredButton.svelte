@@ -35,6 +35,7 @@
             const res = await webln.sendPayment(invoice!);
 
             if (res.preimage) {
+                paying = false;
                 paid = true;
             }
 
