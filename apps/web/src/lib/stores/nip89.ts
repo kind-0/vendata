@@ -1,4 +1,4 @@
-import { NDKAppHandlerEvent, NDKDVMRequest } from "@nostr-dev-kit/ndk";
+import { NDKAppHandlerEvent } from "@nostr-dev-kit/ndk";
 import { get as getStore } from "svelte/store";
 import ndk from './ndk';
 import { jobRequestKinds } from "$utils";

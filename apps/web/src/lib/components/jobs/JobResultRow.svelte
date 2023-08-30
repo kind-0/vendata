@@ -49,8 +49,8 @@
     {event.kind === 65001 ? "text-base" : ""}
 ">
     <div class="flex-grow overflow-x-clip
-        {shouldRestrictResultHeight ? "max-h-48 overflow-y-hidden" : "overflow-y-auto "}
-    ">
+        {shouldRestrictResultHeight ? "overflow-y-hidden" : "overflow-y-auto "}
+    " class:max-h-48={shouldRestrictResultHeight}>
         {#if event.kind === 65001 && contentIsImageUrl()}
             <Lightbox>
                 <img src={event.content} class={$$props.imageClass} />
@@ -80,7 +80,14 @@
                             on:click={() => tagsToDisplay = decodedContent.length}
                         >
                             <div class="flex flex-row items-center justify-center p-2">
-                                <button class="btn btn-ghost bg-base-300 !rounded-full group-hover:bg-base-200">
+                                <button
+                                    class="btn btn-ghost bg-base-300 !rounded-full group-hover:bg-base-200"
+                                    on:click={() => {
+                                        tagsToDisplay = decodedContent.length;
+                                        expanded = true;
+                                        shouldRestrictResultHeight = false;
+                                    }}
+                                >
                                     {decodedContent.length} items
                                 </button>
                             </div>
