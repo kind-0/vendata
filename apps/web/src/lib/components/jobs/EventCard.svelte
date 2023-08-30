@@ -1,22 +1,13 @@
 <script lang="ts">
 	import { eventUserReference } from "$utils";
 	import type { NDKEvent } from "@nostr-dev-kit/ndk";
-    import Time from "svelte-time";
     import { Avatar, EventCardDropdownMenu, Name } from "@nostr-dev-kit/ndk-svelte-components";
 	import ndk from "$stores/ndk";
+	import { RelativeTime } from "@kind0/ui-common";
 
     export let event: NDKEvent;
     export let title: string | undefined = undefined;
     export let href: string | undefined = "#";
-
-    const timestamp = event.created_at!*1000;
-
-    function useRelativeTime() {
-        const now = Date.now();
-        const diff = now - timestamp;
-
-        return diff < 1000*60*60*24;
-    }
 </script>
 
 <div
@@ -32,9 +23,8 @@
             <div class="flex flex-row gap-2 dropdown dropdown-end text-sm font-normal">
                 <EventCardDropdownMenu {event} />
                 <a {href}>
-                    <Time
-                        relative={useRelativeTime()}
-                        {timestamp}
+                    <RelativeTime
+                        timestamp={event.created_at*1000}
                         class="text-sm whitespace-nowrap hidden md:block"
                     />
                 </a>
