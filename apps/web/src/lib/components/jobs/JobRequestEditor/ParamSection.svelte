@@ -23,10 +23,6 @@
                         dvmParams[name].values!.push(...params.values);
                     } else {
                         dvmParams[name] = params;
-
-                        if (name === 'negative_prompt' || name === 'ratio') {
-                            dvmParams[name].required = true;
-                        }
                     }
                 }
             }
