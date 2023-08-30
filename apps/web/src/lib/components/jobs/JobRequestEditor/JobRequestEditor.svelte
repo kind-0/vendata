@@ -82,6 +82,7 @@
 
     function cancel() {
         dispatch('cancel');
+        nip89Events = undefined;
         type = undefined;
         inputTags = [[]];
         if (suggestedJobRequestInput) inputTags = [ [ suggestedJobRequestInput.id, "job" ] ];
