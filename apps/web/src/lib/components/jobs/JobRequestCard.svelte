@@ -99,7 +99,7 @@
 		<div class="flex w-full flex-row gap-2 text-sm font-normal">
 			<Avatar ndk={$ndk} pubkey={jobRequest.pubkey} class="h-8 w-8 rounded-full whitespace-nowrap" />
 			<div
-				class="flex w-full flex-col justify-between gap-2 xl:flex-row xl:items-center xl:justify-start"
+				class="flex w-full flex-row justify-between gap-2 xl:flex-row xl:items-center xl:justify-start"
 			>
 				<span class="inline-block max-w-xs whitespace-nowrap truncate" style="overflow-wrap: anywhere;">
 					<Name ndk={$ndk} pubkey={jobRequest.pubkey} class="font-semibold" />
@@ -153,17 +153,25 @@
 </EventCard>
 
 {#if Object.keys(dvms).length > 0}
-	<div class="pl-5 lg:pl-10 xl:pl-12 z-[11]">
-		<div class="grid grid-cols-2 gap-4">
-			{#each Object.entries(dvms) as [dvmPubkey, events]}
-				<JobDvmEventsCard {jobRequest} {dvmPubkey} {events} parentElement={currentElement} />
-			{/each}
+	<div class="indented flex flex-col gap-4 pt-4">
+		<div class="section-title text-base-100-content">
+			{Object.keys(dvms).length} {Object.keys(dvms).length === 1 ? 'DVM' : 'DVMs'}
+			replied
 		</div>
+		{#each Object.entries(dvms) as [dvmPubkey, events]}
+			<JobDvmEventsCard {jobRequest} {dvmPubkey} {events} parentElement={currentElement} />
+		{/each}
 	</div>
 {/if}
 
 {#if $dependentJobs.length > 0}
-	<div class="ml-5 xl:ml-9 flex flex-col gap-4 divide-y divide-base-300 bg-base-100 p-1">
+	<div class="indented flex flex-col gap-4 divide-y divide-base-300 bg-base-100">
+		<div class="section-title text-base-100-content">
+			{Object.keys($dependentJobs).length}
+			chained
+			{Object.keys($dependentJobs).length === 1 ? 'job' : 'jobs'}
+		</div>
+
 		{#each $dependentJobs as event}
 			{#if event}
 				<ElementConnector from={currentElement}>
@@ -175,3 +183,13 @@
 		{/each}
 	</div>
 {/if}
+
+<style>
+	.indented {
+		@apply ml-10;
+	}
+
+	.section-title {
+		@apply text-base-100-content font-semibold text-2xl pl-4;
+	}
+</style>

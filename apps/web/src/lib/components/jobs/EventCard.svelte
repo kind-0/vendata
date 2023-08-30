@@ -20,7 +20,7 @@
 </script>
 
 <div
-    class="card card-compact group mx-2"
+    class="card card-compact group"
     on:mouseover
     on:mouseleave
     on:mouseout
@@ -35,7 +35,7 @@
                     <Time
                         relative={useRelativeTime()}
                         {timestamp}
-                        class="text-sm whitespace-nowrap"
+                        class="text-sm whitespace-nowrap hidden md:block"
                     />
                 </a>
             </div>

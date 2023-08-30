@@ -11,11 +11,13 @@
 	import PaymentRequiredButton from "./PaymentRequiredButton.svelte";
 	import DvmListItem from "$components/dvms/DvmListItem.svelte";
 	import { ElementConnector } from "@kind0/ui-common";
+	import { Heart } from "phosphor-svelte";
+	import EventCard from "./EventCard.svelte";
 
     export let jobRequest: NDKDVMRequest;
     export let dvmPubkey: string;
     export let events: NDKEventStore<NDKEvent>;
-        export let parentElement: HTMLElement;
+	export let parentElement: HTMLElement;
 
     let nip89event: NDKAppHandlerEvent | undefined;
 
@@ -31,9 +33,27 @@
     let profile: NDKUserProfile | undefined;
     let fetchingProfile = false;
 
+	let fetchProfilePromise = new Promise((resolve, reject) => {
+		if (nip89event) {
+			nip89event.fetchProfile().then((p) => {
+				profile = p;
+				resolve(p);
+			});
+		} else {
+			const user = $ndk.getUser({ hexpubkey: dvmPubkey });
+			if (user) {
+				user.fetchProfile().then((p) => {
+					profile = user.profile;
+					resolve(profile);
+				});
+			}
+		}
+	});
+
     $: if (nip89event && !profile && !fetchingProfile) {
         fetchingProfile = true;
         nip89event.fetchProfile().then((p) => {
+			console.log('here, setting fetchingProfile to false')
             fetchingProfile = false;
             profile = p;
         });
@@ -68,10 +88,51 @@
     }
 </script>
 
+{#await fetchProfilePromise then}
 <ElementConnector from={parentElement} class={containerClass}>
     {#if paymentPending && paymentPendingEvent}
         {#if nip89event}
-            <DvmListItem dvm={nip89event}>
+			<EventCard
+				event={mostRecentEvent}
+			>
+				<div class="flex flex-row items-center gap-2 font-normal text-sm text-base-100-content" slot="header">
+					<Avatar ndk={$ndk} userProfile={profile} class="w-8 h-8 rounded-full" />
+					<div class="flex flex-row items-center gap-1">
+						<span class="truncate max-w-xs inline-block">
+							<Name ndk={$ndk} userProfile={profile} class="font-semibold" />
+						</span>
+					</div>
+				</div>
+
+				<div class="flex flex-col items-center md:flex-row gap-4">
+					<div class="flex flex-col divide-y divide-base-300">
+						<div class="p-4">
+							{profile?.about}
+						</div>
+
+						{#if mostRecentEvent.content.length > 0}
+							<div class="p-4 text-base-100-content text-lg overflow-x-hidden">
+								<EventContent
+									ndk={$ndk}
+									event={paymentPendingEvent}
+								/>
+							</div>
+						{/if}
+					</div>
+
+					<div class="p-3">
+						<PaymentRequiredButton
+							event={paymentPendingEvent}
+							class="!uppercase whitespace-nowrap flex-nowrap !text-lg"
+						/>
+					</div>
+
+				</div>
+
+
+			</EventCard>
+
+            <!-- <DvmListItem dvm={nip89event}>
                 <div class="h-full flex flex-col justify-end gap-6">
                     {#if paymentPendingEvent.content.length > 0}
                         <div class="p-2 glass rounded-lg">
@@ -87,7 +148,7 @@
                         class="!uppercase"
                     />
                 </div>
-            </DvmListItem>
+            </DvmListItem> -->
         {:else}
             no nip89 event found
         {/if}
@@ -129,8 +190,13 @@
         </div>
     {/if}
 </ElementConnector>
+{/await}
 
 <style>
+	section > * {
+		@apply p-3;
+	}
+
     :global(.connector) {
         @apply border-l-8 border-l-base-200;
         @apply border-b-8 border-b-base-200;

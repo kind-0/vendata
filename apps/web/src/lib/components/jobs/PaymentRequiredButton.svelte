@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {AttentionButton} from "@kind0/ui-common";
     import type { NDKDVMJobResult, NDKEvent } from "@nostr-dev-kit/ndk";
+	import { Lightning } from "phosphor-svelte";
     import { requestProvider } from 'webln';
 
     export let event: NDKDVMJobResult | NDKEvent;
@@ -40,7 +41,8 @@
     class={$$props.class}
     on:click={pay}
 >
-    Payment required
+    PAY
+    <Lightning />
     {#if amountInMsats}
         {amountInMsats/1000} sats
     {/if}
