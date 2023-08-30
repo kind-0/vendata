@@ -9,10 +9,9 @@
 	import type { NDKEventStore } from "@nostr-dev-kit/ndk-svelte";
 	import JobStatusLabel from "./JobStatusLabel.svelte";
 	import PaymentRequiredButton from "./PaymentRequiredButton.svelte";
-	import DvmListItem from "$components/dvms/DvmListItem.svelte";
 	import { ElementConnector } from "@kind0/ui-common";
-	import { Heart } from "phosphor-svelte";
 	import EventCard from "./EventCard.svelte";
+	import RelativeTime from "@kind0/ui-common/src/components/RelativeTime.svelte";
 
     export let jobRequest: NDKDVMRequest;
     export let dvmPubkey: string;
@@ -27,7 +26,7 @@
     $: if ($appHandlers && !nip89event) nip89event = findNip89Event(dvmPubkey, jobRequest.kind!);
 
     // check if the most recent event has an amount tag
-    $: paymentPending = $events[$events.length-1]?.getMatchingTags('amount').length > 0;
+    $: paymentPending = $events[0]?.getMatchingTags('amount').length > 0;
     $: paymentPendingEvent = $events.find((event) => event.getMatchingTags('amount').length > 0);
 
     let profile: NDKUserProfile | undefined;
@@ -66,7 +65,7 @@
         .filter((event) => event.kind === NDKKind.DVMJobResult)
         .map((event) => NDKDVMJobResult.from(event));
 
-    $: mostRecentEvent = $events[$events.length-1];
+    $: mostRecentEvent = $events[0];
 
     function hasJobResult() {
         return jobResults.length > 0;
@@ -86,6 +85,9 @@
     } else if (!fetchingProfile) {
         containerClass = "col-span-2";
     }
+
+    let hover = false;
+
 </script>
 
 {#await fetchProfilePromise then}
@@ -95,22 +97,23 @@
 			<EventCard
 				event={mostRecentEvent}
 			>
-				<div class="flex flex-row items-center gap-2 font-normal text-sm text-base-100-content" slot="header">
-					<div class="flex flex-row items-center gap-1">
-						<span class="truncate max-w-xs inline-block">
-							<Name ndk={$ndk} userProfile={profile} class="font-semibold" />
-						</span>
-					</div>
+				<div class="flex flex-row items-center gap-4 font-normal text-sm" slot="header">
+                    <Avatar ndk={$ndk} userProfile={profile} class="w-24 h-24 rounded-lg hidden md:block" />
+
+					<div class="flex flex-col divide-y divide-base-300 flex-grow">
+                            <dvi class="truncate max-w-xs inline-block pb-3">
+                                <Name ndk={$ndk} userProfile={profile} class="font-semibold text-lg text-base-100-content" />
+                            </dvi>
+
+                            <div class="pt-3">
+                                {profile?.about}
+                            </div>
+                        </div>
 				</div>
 
 				<div class="flex flex-col items-center md:flex-row gap-4">
-                    <div class="flex flex-col md:flex-row gap-8 items-center">
-                        <Avatar ndk={$ndk} userProfile={profile} class="w-24 h-24 rounded-lg hidden md:block" />
+                    <div class="flex flex-col md:flex-row gap-8 flex-grow">
                         <div class="flex flex-col divide-y divide-base-300 flex-grow">
-                            <div class="pb-4">
-                                {profile?.about}
-                            </div>
-
                             {#if mostRecentEvent.content.length > 0}
                                 <div class="pt-4 text-base-100-content text-lg overflow-x-hidden">
                                     <EventContent
@@ -118,11 +121,13 @@
                                         event={paymentPendingEvent}
                                     />
                                 </div>
+                            {:else}
+                                &nbsp;
                             {/if}
                         </div>
                     </div>
 
-					<div class="p-3 w-full md:w-fit">
+					<div class="p-3 w-full md:w-fit self-end">
 						<PaymentRequiredButton
 							event={paymentPendingEvent}
 							class="!uppercase whitespace-nowrap flex-nowrap !text-base w-full"
@@ -133,63 +138,28 @@
 
 
 			</EventCard>
-
-            <!-- <DvmListItem dvm={nip89event}>
-                <div class="h-full flex flex-col justify-end gap-6">
-                    {#if paymentPendingEvent.content.length > 0}
-                        <div class="p-2 glass rounded-lg">
-                            <div class="bg-base-300 p-4 rounded-lg text-left">
-                                <EventContent
-                                    event={paymentPendingEvent}
-                                />
-                            </div>
-                        </div>
-                    {/if}
-                    <PaymentRequiredButton
-                        event={paymentPendingEvent}
-                        class="!uppercase"
-                    />
-                </div>
-            </DvmListItem> -->
         {:else}
             no nip89 event found
         {/if}
     {:else if !fetchingProfile}
-        <div class="card card-compact">
-            <div class="card-body">
-                <div class="flex flex-col items-start gap-4">
-                    <!-- header -->
-                    <div class="flex flex-row items-center justify-between w-full">
-                        <div class="flex flex-row items-center gap-2 font-normal text-sm text-base-100-content">
-                            <Avatar ndk={$ndk} userProfile={profile} class="w-8 h-8 rounded-full" />
-                            <div class="flex flex-row items-center gap-1">
-                                <span class="truncate max-w-xs inline-block">
-                                    <Name ndk={$ndk} userProfile={profile} class="font-semibold" />
-                                </span>
-                            </div>
-                        </div>
-
-                        <Time
-                            relative={useRelativeTime(mostRecentEvent)}
-                            timestamp={mostRecentEvent.created_at * 1000}
-                            class="text-sm whitespace-nowrap"
-                        />
-
-                        <JobStatusLabel status={mostRecentEvent?.tagValue('status')} />
-                    </div>
-
-                    <!-- body -->
-                    <!-- if we have a response, we show that -->
-                    {#if hasJobResult()}
-                        {#each jobResults as jobResult (jobResult.id)}
-                            <JobResultRow event={jobResult} imageClass="max-h-48 rounded-lg" />
-                        {/each}
-                    {:else}
-                        {mostRecentEvent.content}
-                    {/if}
-                </div>
+        <EventCard
+            event={mostRecentEvent}
+            userProfile={profile}
+            on:mouseover={() => { hover = true; }}
+            on:mouseleave={() => { hover = false; }}
+        >
+            <div slot="headerRight" class="whitespace-nowrap">
+                <JobStatusLabel status={mostRecentEvent?.tagValue('status')??"No status"} />
             </div>
-        </div>
+
+            {#if hasJobResult()}
+                {#each jobResults as jobResult (jobResult.id)}
+                    <JobResultRow event={jobResult} imageClass="max-h-48 rounded-lg" />
+                {/each}
+            {:else}
+                <EventContent ndk={$ndk} event={mostRecentEvent} />
+            {/if}
+        </EventCard>
     {/if}
 </ElementConnector>
 {/await}

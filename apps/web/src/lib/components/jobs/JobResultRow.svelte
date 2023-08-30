@@ -4,6 +4,7 @@
 	import { Avatar, EventContent, Name, UserCard } from "@nostr-dev-kit/ndk-svelte-components";
 	import { onMount } from "svelte";
 	import { markEventAsSeen } from "$stores/notifications";
+    import { Lightbox } from 'svelte-lightbox'
 
     export let event: NDKDVMJobResult;
     export let dontMarkAsSeen: boolean = false;
@@ -51,7 +52,10 @@
         {shouldRestrictResultHeight ? "max-h-48 overflow-y-hidden" : "overflow-y-auto "}
     ">
         {#if event.kind === 65001 && contentIsImageUrl()}
-            <img src={event.content} class={$$props.imageClass} />
+        here
+            <Lightbox>
+                <img src={event.content} class={$$props.imageClass} />
+            </Lightbox>
         {:else if event.jobRequest?.kind && [65006, 65007].includes(event.jobRequest?.kind)}
             {#if decodedContent}
                 <div
