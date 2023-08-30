@@ -76,9 +76,9 @@
 
     $: mostRecentEvent = $events[0];
 
-    function hasJobResult() {
-        return jobResults.length > 0;
-    }
+    let hasJobResult = false;
+
+    $: hasJobResult = jobResults.length > 0;
 
     let containerClass: string = "";
 
@@ -156,7 +156,7 @@
                     <JobStatusLabel status={mostRecentEvent?.tagValue('status')??"No status"} />
                 </div>
 
-                {#if hasJobResult()}
+                {#if hasJobResult}
                     {#each jobResults as jobResult (jobResult.id)}
                         <JobResultRow event={jobResult} imageClass="max-h-48 rounded-lg" />
                     {/each}
