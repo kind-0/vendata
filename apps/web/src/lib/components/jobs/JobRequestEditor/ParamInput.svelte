@@ -26,7 +26,7 @@
             class="input input-bordered input-sm"
             bind:value={val}
             on:focus={() => showDropdown = true}
-            on:blur={() => setTimeout(() => {showDropdown = false}, 100)}
+            on:blur={() => setTimeout(() => {showDropdown = false}, 200)}
             on:change={change}
             on:keyup={change}
         />
