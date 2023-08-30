@@ -153,7 +153,7 @@
 </EventCard>
 
 {#if Object.keys(dvms).length > 0}
-	<div class="indented flex flex-col gap-4 pt-4">
+	<div class="indented flex flex-col gap-4">
 		<div class="section-title text-base-100-content">
 			{Object.keys(dvms).length} {Object.keys(dvms).length === 1 ? 'DVM' : 'DVMs'}
 			replied

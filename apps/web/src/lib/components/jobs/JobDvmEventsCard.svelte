@@ -96,7 +96,6 @@
 				event={mostRecentEvent}
 			>
 				<div class="flex flex-row items-center gap-2 font-normal text-sm text-base-100-content" slot="header">
-					<Avatar ndk={$ndk} userProfile={profile} class="w-8 h-8 rounded-full" />
 					<div class="flex flex-row items-center gap-1">
 						<span class="truncate max-w-xs inline-block">
 							<Name ndk={$ndk} userProfile={profile} class="font-semibold" />
@@ -105,22 +104,25 @@
 				</div>
 
 				<div class="flex flex-col items-center md:flex-row gap-4">
-					<div class="flex flex-col divide-y divide-base-300 flex-grow">
-						<div class="p-4">
-							{profile?.about}
-						</div>
+                    <div class="flex flex-col md:flex-row gap-8 items-center">
+                        <Avatar ndk={$ndk} userProfile={profile} class="w-24 h-24 rounded-lg hidden md:block" />
+                        <div class="flex flex-col divide-y divide-base-300 flex-grow">
+                            <div class="pb-4">
+                                {profile?.about}
+                            </div>
 
-						{#if mostRecentEvent.content.length > 0}
-							<div class="p-4 text-base-100-content text-lg overflow-x-hidden">
-								<EventContent
-									ndk={$ndk}
-									event={paymentPendingEvent}
-								/>
-							</div>
-						{/if}
-					</div>
+                            {#if mostRecentEvent.content.length > 0}
+                                <div class="pt-4 text-base-100-content text-lg overflow-x-hidden">
+                                    <EventContent
+                                        ndk={$ndk}
+                                        event={paymentPendingEvent}
+                                    />
+                                </div>
+                            {/if}
+                        </div>
+                    </div>
 
-					<div class="p-3">
+					<div class="p-3 w-full md:w-fit">
 						<PaymentRequiredButton
 							event={paymentPendingEvent}
 							class="!uppercase whitespace-nowrap flex-nowrap !text-base w-full"

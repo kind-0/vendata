@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {AttentionButton} from "@kind0/ui-common";
     import type { NDKDVMJobResult, NDKEvent } from "@nostr-dev-kit/ndk";
-	import { Lightning } from "phosphor-svelte";
+	import { CheckCircle, Lightning } from "phosphor-svelte";
 	import { slide } from "svelte/transition";
     import { requestProvider } from 'webln';
 
@@ -13,6 +13,7 @@
     const amountTag = event.getMatchingTags("amount")[0];
 
     let paying = false;
+    let paid = false;
     let error: string | undefined = undefined;
 
     if (amountTag) {
@@ -21,7 +22,7 @@
     }
 
     async function pay() {
-        if (!amountInMsats) return;
+        if (!amountInMsats || paid) return;
 
         paying = true;
 
@@ -31,7 +32,12 @@
             }
 
             const webln = await requestProvider();
-            await webln.sendPayment(invoice!);
+            const res = await webln.sendPayment(invoice!);
+
+            if (res.preimage) {
+                paid = true;
+            }
+
             // TODO we should check here if the payment was successful, with a timer
             // that is canceled here; if the timer doesn't come back, show the modal again
             // or instruct the user to do something with the failed payment
@@ -62,6 +68,9 @@
     " on:click={pay}>
         {#if paying}
             <span class="loading loading-sm"></span>
+        {:else if paid}
+            <CheckCircle class="text-success" />
+            Paid
         {:else}
             PAY
         {/if}
