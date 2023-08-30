@@ -11,6 +11,6 @@ for subfolder in "${subfolders[@]}"; do
         pnpm run build
         cd - >/dev/null
     else
-        echo "Subfolder $subfolder not found in $directory_root"
+        echo "Subfolder $subfolder not found in $directory_root; you need to checkout the git submodules. Run: \"just update\""
     fi
 done

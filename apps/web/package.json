@@ -38,13 +38,14 @@
 		"vitest": "^0.34.2"
 	},
 	"dependencies": {
+		"@kind0/ui-common": "workspace:*",
 		"@macfja/svelte-persistent-store": "^2.4.0",
 		"@nostr-dev-kit/ndk": "workspace:*",
 		"@nostr-dev-kit/ndk-cache-dexie": "workspace:*",
 		"@nostr-dev-kit/ndk-cache-redis": "workspace:*",
 		"@nostr-dev-kit/ndk-svelte": "workspace:*",
 		"@nostr-dev-kit/ndk-svelte-components": "workspace:*",
-		"@kind0/ui-common": "workspace:*",
+		"@sveltejs/adapter-vercel": "^3.0.3",
 		"@tailwindcss/typography": "^0.5.9",
 		"daisyui": "^3.6.1",
 		"nostr-tools": "^1.14.2",
