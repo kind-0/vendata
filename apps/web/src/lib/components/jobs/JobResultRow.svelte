@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { NDKDVMJobResult, NDKTag } from "@nostr-dev-kit/ndk";
     import ndk from "$stores/ndk";
-	import { Avatar, EventContent, Name, UserCard } from "@nostr-dev-kit/ndk-svelte-components";
+	import { EventContent, UserCard } from "@nostr-dev-kit/ndk-svelte-components";
 	import { onMount } from "svelte";
 	import { markEventAsSeen } from "$stores/notifications";
     import { Lightbox } from 'svelte-lightbox'
@@ -22,6 +22,7 @@
         }
     }
 
+    let tagsToDisplay = expanded ? 9999 : 3;
     let decodedContent: NDKTag[] | undefined;
 
     try {
@@ -30,18 +31,16 @@
 
     let shouldRestrictResultHeight: boolean;
 
-    $: shouldRestrictResultHeight = (
-            !contentIsImageUrl() &&
+    shouldRestrictResultHeight =
+        ( !contentIsImageUrl() &&
             event.jobRequest?.kind !== 65006
         ) || (
             decodedContent && decodedContent.length > tagsToDisplay
-        );
+        ) || true;
 
     onMount(() => {
         if (!dontMarkAsSeen) markEventAsSeen(event.id);
     })
-
-    let tagsToDisplay = expanded ? 9999 : 3;
 </script>
 
 <div class="
@@ -77,9 +76,13 @@
                     {#if decodedContent.length > tagsToDisplay}
                         <button
                             class="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-base-300 bg-opacity-40 group w-full rounded-box"
-                            on:click={() => tagsToDisplay = decodedContent.length}
+                            on:click={() => {
+                                tagsToDisplay = decodedContent.length;
+                                expanded = true;
+                                shouldRestrictResultHeight = false;
+                            }}
                         >
-                            <div class="flex flex-row items-center justify-center p-2">
+                            <div class="flex flex-row items-center justify-center p-2 pt-20">
                                 <button
                                     class="btn btn-ghost bg-base-300 !rounded-full group-hover:bg-base-200"
                                     on:click={() => {
@@ -106,7 +109,6 @@
                 {event.content}
             {/if}
         {:else}
-                {event.jobRequest?.kind}
             <EventContent ndk={$ndk} {event} showMedia={true} />
         {/if}
     </div>
