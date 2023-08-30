@@ -1,7 +1,5 @@
 <script lang="ts">
-	import ModalWrapper from "$components/ModalWrapper.svelte";
-
-
+	import { ModalWrapper } from "@kind0/ui-common";
 </script>
 
 <ModalWrapper title="Favorite DVM">

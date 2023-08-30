@@ -1,15 +1,17 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
 	import Nip89Form from "./Nip89Form.svelte";
-	import { NDKEvent, NDKPrivateKeySigner, type NDKUserProfile, type NostrEvent } from "@nostr-dev-kit/ndk";
+	import { NDKAppHandlerEvent, NDKEvent, NDKPrivateKeySigner, type NDKUserProfile, type NostrEvent } from "@nostr-dev-kit/ndk";
     import { nip19 } from "nostr-tools";
 	import ndk from "$stores/ndk";
 	import type { Nip90Param } from "$utils/nip90";
 
+    export let nip89event: NDKAppHandlerEvent | undefined = undefined;
+
     const dispatch = createEventDispatcher();
 
     let name = '';
-    let pubkey = '';
+    let pubkey = nip89event?.pubkey ?? '';
     let image = '';
     let supportedKind: number;
     let about = '';
@@ -17,6 +19,18 @@
 
     let nip89Event: NDKEvent | null;
     let rawEvent: NostrEvent | null;
+
+    if (nip89event) {
+        const kTag = nip89event.tagValue("k");
+
+        if (kTag) supportedKind = parseInt(kTag);
+
+        nip89event.fetchProfile().then((profile) => {
+            name = profile?.name ?? "";
+            image = profile?.image ?? "";
+            about = profile?.about ?? "";
+        });
+    }
 
     async function formDone() {
         const dvmProfile: NDKUserProfile = {
@@ -87,7 +101,7 @@
     }
 </script>
 
-<div class="card border-primary border-4 !rounded-box">
+<div class="card !rounded-box">
     <div class="card-body gap-8">
         {#if !nip89Event}
             <Nip89Form
@@ -112,7 +126,7 @@
                 </button>
             {/if}
 
-            <div class="flex flex-row items-end gap-2">
+            <div class="flex flex-col items-start gap-2">
                 <h3 class="text-2xl text-base-100-content">Enter your DVM private key to sign it here</h3>
                 <h4>
                     or copy the event, sign it offline and publish it manually

@@ -14,6 +14,8 @@
 	import { openModal } from "svelte-modals";
 	import JobDvmEventsCard from "./JobDvmEventsCard.svelte";
 	import type { NDKEventStore } from "@nostr-dev-kit/ndk-svelte";
+	import { ElementConnector } from "@kind0/ui-common";
+	import AddJobButton from "./AddJobButton.svelte";
 
 	export let jobRequest: NDKDVMRequest;
 	export let compact = false;
@@ -23,6 +25,8 @@
 	let inputs: NDKTag[] = [];
 
 	inputs = jobRequest.getMatchingTags('i');
+
+	let currentElement: HTMLElement | undefined = undefined;
 
 	function encodeInput(input: NDKTag) {
 		try {
@@ -93,8 +97,6 @@
 >
 	<div class="text-base-100-content flex w-full flex-row gap-4" slot="header">
 		<div class="flex w-full flex-row gap-2 text-sm font-normal">
-			<!-- {$results.length} result events
-			{$dependentJobs.length} dependentJobs events -->
 			<Avatar ndk={$ndk} pubkey={jobRequest.pubkey} class="h-8 w-8 rounded-full whitespace-nowrap" />
 			<div
 				class="flex w-full flex-col justify-between gap-2 xl:flex-row xl:items-center xl:justify-start"
@@ -138,47 +140,23 @@
 		{/each}
 	</div>
 
-	{#if cardHover || true}
-		<div
-			class="relative
-        "
-		>
-			<button
-				class="
-                    btn-normal group btn btn-sm inline-block flex w-fit min-w-[32px] flex-row items-center
-                    !rounded-full !bg-base-300 from-gradient3
-                    to-gradient4
-                    p-1 font-normal
-                    transition-all
-                    duration-200 hover:bg-gradient-to-r
-                    hover:px-4
-                    hover:text-white
-                "
-				on:mouseover={() => (addJobHover = true)}
-				on:mouseout={() => (addJobHover = false)}
-				on:click={() => {
-					openModal(JobRequestEditorModal, {
-						suggestedJobRequestInput: jobRequest,
-						jobs: [...$dependentJobs, jobRequest]
-					});
-				}}
-			>
-				<Plus size="1rem" />
-				{#if addJobHover}
-					<span class="line-clamp-1 whitespace-nowrap" transition:slide|local={{ axis: 'x' }}>
-						Add job
-					</span>
-				{/if}
-			</button>
-		</div>
-	{/if}
+	<div
+		class="relative
+			flex flex-row items-center gap-8
+		" bind:this={currentElement}
+	>
+		<AddJobButton
+			{jobRequest}
+			{dependentJobs}
+		/>
+	</div>
 </EventCard>
 
 {#if Object.keys(dvms).length > 0}
 	<div class="pl-5 lg:pl-10 xl:pl-12 z-[11]">
 		<div class="grid grid-cols-2 gap-4">
 			{#each Object.entries(dvms) as [dvmPubkey, events]}
-				<JobDvmEventsCard {jobRequest} {dvmPubkey} {events} />
+				<JobDvmEventsCard {jobRequest} {dvmPubkey} {events} parentElement={currentElement} />
 			{/each}
 		</div>
 	</div>
@@ -188,7 +166,9 @@
 	<div class="ml-5 xl:ml-9 flex flex-col gap-4 divide-y divide-base-300 bg-base-100 p-1">
 		{#each $dependentJobs as event}
 			{#if event}
-				<svelte:self jobRequest={event} {compact} />
+				<ElementConnector from={currentElement}>
+					<svelte:self jobRequest={event} {compact} />
+				</ElementConnector>
 			{:else}
 				no event?
 			{/if}

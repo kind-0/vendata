@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ModalWrapper from "$components/ModalWrapper.svelte";
+	import { ModalWrapper } from "@kind0/ui-common";
 	import type { Nip90Param } from "$utils/nip90";
 	import { closeModal } from "svelte-modals";
 

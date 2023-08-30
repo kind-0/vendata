@@ -73,7 +73,7 @@
 
                     {#if decodedContent.length > tagsToDisplay}
                         <button
-                            class="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-base-300 bg-opacity-40 group w-full"
+                            class="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-base-300 bg-opacity-40 group w-full rounded-box"
                             on:click={() => tagsToDisplay = decodedContent.length}
                         >
                             <div class="flex flex-row items-center justify-center p-2">

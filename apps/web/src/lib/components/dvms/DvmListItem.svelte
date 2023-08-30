@@ -1,8 +1,11 @@
 <script lang="ts">
+	import Nip89ToolModal from '$modals/Nip89ToolModal.svelte';
     import ndk from '$stores/ndk';
 	import { jobRequestKinds, kindToText } from '$utils';
-	import { NDKEvent, type NDKUserProfile } from "@nostr-dev-kit/ndk";
+	import { NDKAppHandlerEvent, NDKEvent, type NDKUserProfile } from "@nostr-dev-kit/ndk";
 	import { Avatar, EventCardDropdownMenu, EventContent, Name } from '@nostr-dev-kit/ndk-svelte-components';
+	import { Pencil } from 'phosphor-svelte';
+	import { openModal } from 'svelte-modals';
 
     export let dvm: NDKEvent;
 
@@ -34,6 +37,12 @@
     });
 
     const kTags = dvm.getMatchingTags("k");
+
+    function edit() {
+        openModal(Nip89ToolModal, {
+            nip89event: NDKAppHandlerEvent.from(event!)
+        });
+    }
 </script>
 
 {#await profilePromise then}
@@ -47,7 +56,12 @@
                     <div class="flex flex-row justify-between dropdown dropdown-end">
                         <Name ndk={$ndk} userProfile={profile} {user} class="text-xl text-base-100-content truncate font-semibold" />
                         <EventCardDropdownMenu ndk={$ndk} {event}>
-
+                            <li>
+                                <button on:click={edit} class="flex flex-row items-center gap-3">
+                                    <Pencil class="w-5 h-5" />
+                                    Edit
+                                </button>
+                            </li>
                         </EventCardDropdownMenu>
                     </div>
                     <div class="text-base max-h-48 md:max-h-96 overflow-clip overflow-y-auto">

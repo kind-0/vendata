@@ -28,7 +28,7 @@
     <h1 class="text-base-content-300 text-3xl font-semibold">Your Requests</h1>
 
     {#if $sortedJobRequests && $sortedJobRequests.length > 0}
-        {#each $sortedJobRequests as jobRequest (jobRequest.id)}
+        {#each $sortedJobRequests.slice(0, 20) as jobRequest (jobRequest.id)}
             <JobRequestCard {jobRequest} compact={true} />
         {/each}
     {/if}

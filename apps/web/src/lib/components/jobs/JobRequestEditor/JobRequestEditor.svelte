@@ -106,7 +106,12 @@
      */
     let requireSelectingDvms = false;
 
-    $: requireSelectingDvms = type === '65006';
+    const typesRequireSelectingDvms = [
+        '65006',
+        '65007',
+    ];
+
+    $: requireSelectingDvms = typesRequireSelectingDvms.includes(type!);
 </script>
 
 <div class="card-body flex flex-col gap-8">

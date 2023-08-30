@@ -1,5 +1,5 @@
 <script lang="ts">
-    import ModalWrapper from '$components/ModalWrapper.svelte';
+    import { ModalWrapper } from "@kind0/ui-common";
 	import JobRequestEditor from '$components/jobs/JobRequestEditor/JobRequestEditor.svelte';
 	import type { NDKDVMRequest, NDKEvent } from '@nostr-dev-kit/ndk';
 	import { closeModal } from 'svelte-modals';
@@ -9,7 +9,7 @@
     export let jobs: NDKEvent[] | undefined = undefined;
 </script>
 
-<ModalWrapper class="w-full" bodyClass="p-0" title="New Job Request">
+<ModalWrapper class="max-w-5xl w-full" bodyClass="p-0" title="New Job Request">
     <JobRequestEditor
         bind:jobRequest
         {suggestedJobRequestInput}
