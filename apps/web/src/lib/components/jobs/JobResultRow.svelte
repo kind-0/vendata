@@ -52,7 +52,6 @@
         {shouldRestrictResultHeight ? "max-h-48 overflow-y-hidden" : "overflow-y-auto "}
     ">
         {#if event.kind === 65001 && contentIsImageUrl()}
-        here
             <Lightbox>
                 <img src={event.content} class={$$props.imageClass} />
             </Lightbox>
