@@ -95,18 +95,22 @@
 	on:mouseover={() => (cardHover = true)}
 	on:mouseout={() => (cardHover = false)}
 >
-	<div class="text-base-100-content flex w-full flex-row gap-4" slot="header">
+	<div class="flex w-full flex-row gap-4" slot="header">
 		<div class="flex w-full flex-row gap-2 text-sm font-normal">
 			<Avatar ndk={$ndk} pubkey={jobRequest.pubkey} class="h-8 w-8 rounded-full whitespace-nowrap" />
-			<div
-				class="flex w-full flex-row justify-between gap-2 xl:flex-row xl:items-center xl:justify-start"
-			>
-				<span class="inline-block max-w-xs whitespace-nowrap truncate" style="overflow-wrap: anywhere;">
-					<Name ndk={$ndk} pubkey={jobRequest.pubkey} class="font-semibold" />
+			<div class="
+				flex w-full flex-row justify-between gap-2 xl:flex-row xl:items-center xl:justify-start
+			">
+				<span class="md:inline-block max-w-xs whitespace-nowrap truncate hidden" style="overflow-wrap: anywhere;">
+					<Name ndk={$ndk} pubkey={jobRequest.pubkey} class="font-semibold text-base-100-content" />
 				</span>
-				requested
-				<JobTypeIcon {kind} />
-				{kindToText(kind)}
+				<span class="hidden md:inline-block">requested</span>
+				<a href={`/jobs/${jobRequest.encode()}`} class="flex flex-row items-center gap-1">
+					<JobTypeIcon {kind} />
+					<span class="text-base-100-content">
+						{kindToText(kind)}
+					</span>
+				</a>
                 {extraJobInfoText}
 			</div>
 		</div>
@@ -123,7 +127,7 @@
 				</h3>
 				{#if input[2] === 'job'}
 					<div class="flex flex-row gap-2">
-						<span>output of</span>
+						<span class="hidden md:inline">output of</span>
 						<a href="/jobs/{encodeInput(input)}" class="text-accent">
 							#{input[1]?.slice(0, 8)}
 						</a>
@@ -149,6 +153,14 @@
 			{jobRequest}
 			{dependentJobs}
 		/>
+
+		{#if Object.keys(dvms).length > 0}
+			{Object.keys(dvms).length} DVMs replied
+		{:else if jobRequest.created_at > Math.floor(Date.now() / 1000) - 300}
+			<span class="loading"></span>
+		{:else}
+			No DVMs replied
+		{/if}
 	</div>
 </EventCard>
 

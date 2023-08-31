@@ -74,7 +74,9 @@
         .filter((event) => event.kind === NDKKind.DVMJobResult)
         .map((event) => NDKDVMJobResult.from(event));
 
-    $: mostRecentEvent = $events[0];
+    $: mostRecentEvent = $events.sort((a, b) => {
+        return b.created_at! - a.created_at!;
+    })[0];
 
     let hasJobResult = false;
 
@@ -153,7 +155,7 @@
                 on:mouseleave={() => { hover = false; }}
             >
                 <div slot="headerRight" class="whitespace-nowrap">
-                    <JobStatusLabel status={mostRecentEvent?.tagValue('status')??"No status"} />
+                    <JobStatusLabel status={mostRecentEvent?.tagValue('status')??""} />
                 </div>
 
                 {#if hasJobResult}
