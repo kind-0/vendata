@@ -34,7 +34,7 @@
             }
         }
 
-        jobRequests = $ndk.storeSubscribe(
+        jobRequests = $ndk.storeSubscribe<NDKDVMRequest>(
             { "ids": hexids },
             { closeOnEose: true },
             NDKDVMRequest

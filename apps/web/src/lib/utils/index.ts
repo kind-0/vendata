@@ -5,8 +5,9 @@ const kinds: Record<number, string> = {
     65003: "Summarization",
     65004: "Translation",
     65005: "Image Generation",
-    65006: "Nostr Discovery",
-    65007: "Nostr Filtering"
+    65006: "Nostr People Algorithms",
+    65007: "Nostr Filtering",
+    65008: "Nostr Content Algorithms",
 };
 
 export function kindToText(kind: number): string {
@@ -23,8 +24,9 @@ export function kindToDescription(kind: number): string | undefined {
         case 65003: return "Summarizes a text";
         case 65004: return "Translates a text";
         case 65005: return "Generates an image";
-        case 65006: return "Discover people or content in nostr";
+        case 65006: return "Discover people in nostr";
         case 65007: return "Filter in or out people or content in nostr";
+        case 65008: return "Discover new content";
     }
 }
 

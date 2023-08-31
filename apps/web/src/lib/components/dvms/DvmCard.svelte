@@ -1,7 +1,7 @@
 <script lang="ts">
     import ndk from '$stores/ndk';
-	import { NDKAppHandlerEvent, type NDKUser, type NDKUserProfile } from '@nostr-dev-kit/ndk';
-	import { Avatar, Name } from '@nostr-dev-kit/ndk-svelte-components';
+	import { NDKAppHandlerEvent, NDKEvent, type NDKUser, type NDKUserProfile } from '@nostr-dev-kit/ndk';
+	import { Avatar, EventCardDropdownMenu, EventContent, Name } from '@nostr-dev-kit/ndk-svelte-components';
 	import { Star } from 'phosphor-svelte';
 
     export let pubkey: string | undefined = undefined;
@@ -9,6 +9,11 @@
     export let nip89event: NDKAppHandlerEvent | null | undefined = undefined;
     export let profile: NDKUserProfile | undefined = undefined;
     export let user: NDKUser | undefined = undefined;
+
+    /**
+     * Event that should be referrenced in the card (if different than the app handler event)
+    */
+    export let event: NDKEvent | undefined = undefined;
 
     if (!user) user = $ndk.getUser({hexpubkey: pubkey});
 
@@ -20,6 +25,10 @@
             "#k": [kind.toString()],
             authors: [pubkey]
         }).then((e) => {
+            if (!e) {
+                user?.fetchProfile().then(() => { resolve(user.profile); })
+                return;
+            }
             if (!e) return resolve(undefined);
 
             nip89event = NDKAppHandlerEvent.from(e);

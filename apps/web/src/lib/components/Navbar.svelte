@@ -2,12 +2,11 @@
 	import { page } from '$app/stores';
 	import Logo from '$icons/Logo.svelte';
 	import { currentUser } from '$stores/current-user';
-	import { userTaggedEvents } from '$stores/jobRequests';
 	import { notificationsEnabled } from '$stores/notifications';
 	import { AttentionButton } from '@kind0/ui-common';
 	import CurrentUser from './CurrentUser.svelte';
 	import NotificationButton from './NotificationButton.svelte';
-	import { GitPullRequest, MagicWand, Rss, Sparkle } from 'phosphor-svelte';
+	import { MagicWand, PersonSimpleRun, Rss, Sparkle } from 'phosphor-svelte';
 </script>
 
 <div class="navbar mb-2 bg-base-100 px-8">
@@ -54,7 +53,7 @@
 				</li>
 			</ul>
 		</div>
-		<a href="/" class="btn btn-ghost text-xl normal-case">
+		<a href="/" class="btn btn-ghost text-xl normal-case px-0 hover:bg-transparent">
 			<Logo class="h-12 w-12" />
 			<h1 class="text-xl font-bold">VENDATA</h1>
 		</a>
@@ -86,7 +85,7 @@
 			{#if $currentUser}
 				<li>
 					<a class:tab-active={$page.url.pathname === '/jobs/my'} class="" href="/jobs/my">
-						<GitPullRequest class="h-6 w-6" />
+						<PersonSimpleRun class="h-6 w-6" />
 						Your Jobs
 					</a>
 				</li>

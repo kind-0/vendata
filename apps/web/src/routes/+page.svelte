@@ -5,6 +5,10 @@
 	import { appHandlers } from '$stores/nip89';
 </script>
 
+<svelte:head>
+	<title>Vendata - A client for Nostr Data Vending Machines (NIP-90)</title>
+</svelte:head>
+
 <div class="flex flex-col gap-12">
 	<section
 		class="mx-2 flex flex-col items-center justify-center gap-8 md:h-[50vh] md:flex-row lg:mx-auto">
@@ -29,9 +33,9 @@
 	</section>
 
 	<section class="flex flex-col gap-8">
-		<h1 class="flex flex-col items-center gap-4 text-center text-5xl font-black">
-			<div class="text-3xl font-bold opacity-80">Meet your</div>
-			<span class="bg"> Data Vending Machine </span>
+		<h1 class="flex flex-col items-center gap-4 text-center text-3xl md:text-5xl font-black">
+			<div class="text-2xl md:text-3xl font-bold opacity-80">Meet your</div>
+			<span class="bg">Data Vending Machine</span>
 		</h1>
 
 		<div class="relative mx-auto flex flex-col gap-8 px-4 lg:flex-row">
@@ -44,13 +48,16 @@
 						and they give you back some data.
 					</p>
 
-					<p>The magic of DVMs comes from a few key properties:</p>
+					<p>
+						<a href="/magic" class="text-accent">The magic of DVMs</a>
+						comes from a few key properties:
+					</p>
 
 					<div class="not-prose grid grid-flow-row gap-8">
 						<div class="grid gap-6 sm:grid-cols-2">
 							<div class="card card-compact !rounded-xl">
 								<div class="card-body">
-									<span class="block text-2xl font-bold text-accent2">Discoverable</span>
+									<span class="block text-2xl font-bold text-accent">Discoverable</span>
 									<p class="text-lg">
 										Jobs don't need to be specifically directed to any DVM; users simply request a
 										certain job to be done and available DVMs pick it up.
@@ -60,7 +67,7 @@
 
 							<div class="card card-compact !rounded-xl">
 								<div class="card-body">
-									<span class="block text-2xl font-bold text-accent2">Composable</span>
+									<span class="block text-2xl font-bold text-accent">Composable</span>
 									<p class="text-lg">
 										Jobs don't need to be specifically directed to any DVM; users simply request a
 										certain job to be done and available DVMs pick it up.
@@ -71,7 +78,7 @@
 
 						<div class="card card-compact !rounded-xl">
 							<div class="card-body">
-								<span class="block text-2xl font-bold text-accent2">Ruthless Competition</span>
+								<span class="block text-2xl font-bold text-accent">Ruthless Competition</span>
 								<p class="text-lg">
 									The fact that there is no registration, no signups or approvals, the fact
 									<span class="text-base-100-content">

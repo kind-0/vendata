@@ -25,12 +25,22 @@
 </script>
 
 <div class="max-w-5xl mx-auto flex flex-col gap-6">
-    <h1 class="text-base-content-300 text-3xl font-semibold">Your Requests</h1>
+    <div class="mx-auto flex flex-col gap-4">
+        <h1 class="
+            text-7xl text-center font-black
+            bg-clip-text !text-transparent bg-gradient-to-r from-gradient3 to-gradient4
+        ">Your DVM Jobs</h1>
+        <div class="text-2xl text-base-100-content font-extralight text-center">
+            This is a feed of all your DVM jobs
+        </div>
+    </div>
 
-    {#if $sortedJobRequests && $sortedJobRequests.length > 0}
-        {#each $sortedJobRequests.slice(0, 20) as jobRequest (jobRequest.id)}
-            <JobRequestCard {jobRequest} compact={true} />
-        {/each}
-    {/if}
+    <div class="list-container">
+        {#if $sortedJobRequests && $sortedJobRequests.length > 0}
+            {#each $sortedJobRequests as jobRequest (jobRequest.id)}
+                <JobRequestCard {jobRequest} compact={true} />
+            {/each}
+        {/if}
+    </div>
 </div>
 
