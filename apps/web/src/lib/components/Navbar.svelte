@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import Logo from '$icons/Logo.svelte';
 	import { currentUser } from '$stores/current-user';
-	import { notificationsEnabled } from '$stores/notifications';
+	// import { notificationsEnabled } from '$stores/notifications';
 	import { AttentionButton } from '@kind0/ui-common';
 	import CurrentUser from './CurrentUser.svelte';
 	import NotificationButton from './NotificationButton.svelte';
@@ -97,9 +97,9 @@
 		</AttentionButton>
 	</div>
 	<div class="navbar-end flex flex-row items-center gap-4">
-		{#if $notificationsEnabled}
+		<!-- {#if $notificationsEnabled}
 			<NotificationButton />
-		{/if}
+		{/if} -->
 
 		<CurrentUser />
 	</div>

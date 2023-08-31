@@ -12,14 +12,14 @@
         case 65005: bg = "!bg-accent text-accent-content"; break;
         case 65006: bg = "!bg-accent2 text-accent-content"; break;
         case 65007: bg = "!bg-teal-400 text-black text-opacity-70"; break;
-        case 65100: bg = "!bg-neutral text-neutral-content"; break;
+        case 65008: bg = "!bg-secondary text-secondary-content"; break;
     }
 </script>
 
 <button class="card !bg-opacity-80 {bg} hover:!bg-opacity-100 transition-all duration-50" on:click>
-    <div class="card-body text-center items-start justify-stretch">
+    <div class="card-body text-left items-start justify-stretch">
         <div class="card-title">{kindToText(kind)}</div>
 
-        <p class="text-left opacity-80">{kindToDescription(kind)}</p>
+        <p class="opacity-80">{kindToDescription(kind)}</p>
     </div>
 </button>

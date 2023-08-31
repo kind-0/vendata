@@ -1,20 +1,18 @@
 <script lang="ts">
-	import { eventUserReference } from "$utils";
 	import type { NDKEvent, NDKUser, NDKUserProfile } from "@nostr-dev-kit/ndk";
     import { Avatar, EventCardDropdownMenu, Name } from "@nostr-dev-kit/ndk-svelte-components";
 	import ndk from "$stores/ndk";
 	import { RelativeTime } from "@kind0/ui-common";
-	import JobStatusLabel from "./JobStatusLabel.svelte";
 
     export let event: NDKEvent;
     export let title: string | undefined = undefined;
     export let href: string | undefined = "#";
-    export let user: NDKUser | undefined = undefined;
+    export let user: NDKUser | undefined = event.author;
     export let userProfile: NDKUserProfile | undefined = undefined;
 </script>
 
 <div
-    class="card card-compact group"
+    class="card card-compact group {$$props.class}"
     on:mouseover
     on:mouseleave
     on:mouseout

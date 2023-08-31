@@ -5,9 +5,9 @@ const kinds: Record<number, string> = {
     65003: "Summarization",
     65004: "Translation",
     65005: "Image Generation",
-    65006: "Nostr People Algorithms",
+    65006: "Discover People Algorithms",
     65007: "Nostr Filtering",
-    65008: "Nostr Content Algorithms",
+    65008: "Discover Content Algorithms",
 };
 
 export function kindToText(kind: number): string {

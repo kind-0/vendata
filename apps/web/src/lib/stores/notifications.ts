@@ -25,19 +25,19 @@ export function initNotifications() {
 
     console.log(`Initializing notifications`);
 
-    unseenEvents = derived(userTaggedEvents, $userTaggedEvents => {
-        const $seenIds = getStore(seenIds);
-        const $lastSeenTimestamp = getStore(lastSeenTimestamp)
-        const timestampThreshold = Math.floor(Date.now() / 1000) - 60 * 60 * 24 * 1
+    // unseenEvents = derived(userTaggedEvents, $userTaggedEvents => {
+    //     const $seenIds = getStore(seenIds);
+    //     const $lastSeenTimestamp = getStore(lastSeenTimestamp)
+    //     const timestampThreshold = Math.floor(Date.now() / 1000) - 60 * 60 * 24 * 1
 
-        // if (!$lastSeenTimestamp) {
-        //     return $userTaggedEvents;
-        // }
+    //     // if (!$lastSeenTimestamp) {
+    //     //     return $userTaggedEvents;
+    //     // }
 
-        return $userTaggedEvents.filter(event => {
-            return event.created_at! > timestampThreshold && !$seenIds.has(event.id);
-        });
-    });
+    //     return $userTaggedEvents.filter(event => {
+    //         return event.created_at! > timestampThreshold && !$seenIds?.has(event.id);
+    //     });
+    // });
 
     setTimeout(() => {
         notificationsEnabled.set(true);
