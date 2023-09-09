@@ -15,7 +15,9 @@
         try {
             const url = new URL(event.content);
 
-            return url.pathname.endsWith(".png") || url.pathname.endsWith(".jpg");
+            return url.pathname.endsWith(".png") ||
+                url.pathname.endsWith(".jpg") ||
+                url.pathname.endsWith(".jpeg");
         } catch (e) {
             return false;
         }
