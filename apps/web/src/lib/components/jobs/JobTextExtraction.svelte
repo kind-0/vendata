@@ -11,7 +11,7 @@
     if (job.id) {
         results = $ndk.storeSubscribe(
             // job.filter(),
-            { kinds: [5, 65000 as number, 65001 as number], ...job.filter() },
+            { kinds: [5, 7000 as number, 6000 as number], ...job.filter() },
             { closeOnEose: true, groupableDelay: 1000 },
             NDKDVMJobResult
         )

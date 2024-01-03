@@ -83,7 +83,7 @@
 
         const signer = new NDKPrivateKeySigner(pk);
         const user = await signer.user();
-        const hexpubkey = user.hexpubkey();
+        const hexpubkey = user.pubkey;
 
         if (hexpubkey !== pubkey) {
             alert('The pubkey you entered does not match the one in your private key, pubkey in private key: ' + hexpubkey);

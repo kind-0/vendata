@@ -1,13 +1,19 @@
 import type { NDKEvent } from "@nostr-dev-kit/ndk";
 
 const kinds: Record<number, string> = {
-    65002: "Text extraction",
-    65003: "Summarization",
-    65004: "Translation",
-    65005: "Image Generation",
-    65006: "Discover People Algorithms",
-    65007: "Nostr Filtering",
-    65008: "Discover Content Algorithms",
+    5000: "Text extraction",
+    5001: "Summarization",
+    5002: "Translation",
+
+    5100: "Image Generation",
+
+    5200: "Video Translation",
+
+    5300: "Discover Content Algorithms",
+    5301: "Discover People Algorithms",
+    5302: "Nostr Filtering",
+
+    5900: 'Nostr Timestamping'
 };
 
 export function kindToText(kind: number): string {
@@ -20,13 +26,17 @@ export function kindToText(kind: number): string {
 
 export function kindToDescription(kind: number): string | undefined {
     switch (kind) {
-        case 65002: return "Extracts text from an image, audio, video or anything else";
-        case 65003: return "Summarizes a text";
-        case 65004: return "Translates a text";
-        case 65005: return "Generates an image";
-        case 65006: return "Discover people in nostr";
-        case 65007: return "Filter in or out people or content in nostr";
-        case 65008: return "Discover new content";
+        case 5000: return "Extracts text from an image, audio, video or anything else";
+        case 5001: return "Summarizes a text";
+        case 5002: return "Translates a text";
+
+        case 5100: return "Generates an image";
+
+        case 5300: return "Discover new content";
+        case 5301: return "Discover people in nostr";
+        case 5302: return "Filter in or out people or content in nostr";
+
+        case 5900: return "Opentimestamp nostr events";
     }
 }
 

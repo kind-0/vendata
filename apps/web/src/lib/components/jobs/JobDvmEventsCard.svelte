@@ -71,7 +71,7 @@
     let mostRecentEvent: NDKEvent | undefined;
 
     $: jobResults = $events
-        .filter((event) => event.kind === NDKKind.DVMJobResult)
+        .filter((event) => event.kind! >= 6000 && event.kind! < 7000)
         .map((event) => NDKDVMJobResult.from(event));
 
     $: mostRecentEvent = $events.sort((a, b) => {

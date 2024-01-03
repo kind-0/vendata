@@ -22,7 +22,7 @@
                 {#each $unseenEvents as unseenEvent (unseenEvent.id)}
                     <li class="max-w-lg w-screen">
                         <div class="flex flex-row justify-between">
-                            {#if unseenEvent.kind === 65000}
+                            {#if unseenEvent.kind === 7000}
                                 <div class="shrink">
                                     {unseenEvent.content}
                                 </div>

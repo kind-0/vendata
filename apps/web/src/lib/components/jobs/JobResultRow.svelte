@@ -47,11 +47,11 @@
 <div class="flex-grow overflow-x-clip
     {shouldRestrictResultHeight ? "overflow-y-hidden" : "overflow-y-auto "}
 " class:max-h-48={shouldRestrictResultHeight}>
-    {#if event.kind === 65001 && contentIsImageUrl()}
+    {#if event.kind === 6100 && contentIsImageUrl()}
         <Lightbox>
             <img src={event.content} class={$$props.imageClass} />
         </Lightbox>
-    {:else if event.jobRequest?.kind && [65006, 65007, 65008].includes(event.jobRequest?.kind)}
+    {:else if event.jobRequest?.kind && [5300, 5301, 5302].includes(event.jobRequest?.kind)}
         {#if decodedContent}
             <div
                 class="flex flex-col divide-y divide-base-300"

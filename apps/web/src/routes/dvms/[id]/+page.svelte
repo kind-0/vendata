@@ -16,7 +16,7 @@
 
 		nip89events = $ndk.storeSubscribe<NDKAppHandlerEvent>({
 			kinds: [31990 as number],
-			authors: [user.hexpubkey()],
+			authors: [user.pubkey],
 		}, {closeOnEose: true}, NDKAppHandlerEvent);
 	}
 </script>

@@ -3,7 +3,7 @@
 	import Logo from '$icons/Logo.svelte';
 	import { currentUser } from '$stores/current-user';
 	// import { notificationsEnabled } from '$stores/notifications';
-	import { AttentionButton } from '@kind0/ui-common';
+	import { AttentionButton, PrimaryButton } from '@kind0/ui-common';
 	import CurrentUser from './CurrentUser.svelte';
 	import NotificationButton from './NotificationButton.svelte';
 	import { MagicWand, PersonSimpleRun, Rss, Sparkle } from 'phosphor-svelte';
@@ -92,9 +92,11 @@
 			{/if}
 		</ul>
 
-		<AttentionButton href="/jobs/new" class="btn btn-accent btn-outline ml-12 !rounded-full !py-1">
-			SUBMIT NEW JOB
-		</AttentionButton>
+		<div>
+			<PrimaryButton color="accent" href="/jobs/new" class="btn btn-accent btn-outline ml-12 !rounded-full !py-1">
+				SUBMIT NEW JOB
+			</PrimaryButton>
+		</div>
 	</div>
 	<div class="navbar-end flex flex-row items-center gap-4">
 		<!-- {#if $notificationsEnabled}

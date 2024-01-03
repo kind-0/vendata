@@ -99,7 +99,7 @@
     }
 
     let shouldShowOutput = true;
-    $: shouldShowOutput = type !== '65005';
+    $: shouldShowOutput = type !== '5100';
 
     /**
      * Require selecting DVMs before moving on to show the
@@ -108,8 +108,8 @@
     let requireSelectingDvms = false;
 
     const typesRequireSelectingDvms = [
-        '65006',
-        '65007',
+        '5301',
+        '5302',
     ];
 
     $: requireSelectingDvms = typesRequireSelectingDvms.includes(type!);
@@ -122,7 +122,7 @@
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 flex-wrap gap-4 justify-start">
 
             {#each jobRequestKinds as kind}
-                <TypeCard {kind} on:click={() => { type = kind.toString(); if (type === '65006' || type === '65007') { addInput(); } }} />
+                <TypeCard {kind} on:click={() => { type = kind.toString(); if (type === '5301' || type === '5302') { addInput(); } }} />
             {/each}
         </div>
     {:else if requireSelectingDvms && $nip89Events}
@@ -146,7 +146,7 @@
         <section>
 
             <div class="flex flex-row items-end gap-4 mb-3 items-center">
-                <AddInputButton expand={!inputTags.length && !['65006', '65007'].includes(type)} on:click={addInput} />
+                <AddInputButton expand={!inputTags.length && !['5301', '5302'].includes(type)} on:click={addInput} />
                 <div class="flex flex-row gap-2 items-end">
                     <h3>
                         Input

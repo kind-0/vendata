@@ -59,7 +59,7 @@
         {/if}
     {/each}
 
-    {#if kind === 65002}
+    {#if kind === 5000}
         <JobRequestEditorParameters65002 bind:range={paramValues["range"]} on:change={updateTags} />
     {/if}
 </div>

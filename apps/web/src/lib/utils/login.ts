@@ -105,7 +105,7 @@ async function nip46SignIn(ndk: NDK, bunkerNDK: NDK, existingPrivateKey: string)
         localSigner = new NDKPrivateKeySigner(existingPrivateKey);
     }
 
-    const remoteSigner = new NDKNip46Signer(bunkerNDK, remoteUser.hexpubkey(), localSigner);
+    const remoteSigner = new NDKNip46Signer(bunkerNDK, remoteUser.pubkey, localSigner);
 
     await remoteSigner.blockUntilReady();
     ndk.signer = remoteSigner;

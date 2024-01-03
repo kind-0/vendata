@@ -8,13 +8,13 @@
 
     async function loadComponent() {
         switch (job.kind) {
-            case NDKKind.DVMJobRequestTranscription: {
+            case NDKKind.DVMReqTextExtraction: {
                 const module = await import("./JobTextExtraction.svelte");
                 Component = module.default; // Access the default export
                 _job = NDKTranscriptionDVM.from(job);
                 break;
             }
-            case 65003: {
+            case NDKKind.DVMReqTextSummarization: {
                 const module = await import("./JobSummarization.svelte");
                 Component = module.default; // Access the default export
                 _job = NDKTranscriptionDVM.from(job);

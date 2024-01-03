@@ -40,12 +40,12 @@
 
 <div class="
     flex flex-row w-full items-center whitespace-normal
-    {event.kind === 65001 ? "text-lg" : ""}
+    {event.kind >= 6000 && event.kind < 7000 ? "text-lg" : ""}
 ">
     <div class="flex-grow overflow-y-auto overflow-x-clip
         {contentIsImageUrl() ? "" : "max-h-48"}
     ">
-        {#if event.kind === 65001 && contentIsImageUrl()}
+        {#if (event.kind >= 6000 && event.kind < 7000) && contentIsImageUrl()}
             <img src={event.content} class="max-h-96" />
         {/if}
         <EventContent ndk={$ndk} {event} showMedia={true} />

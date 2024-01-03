@@ -5,6 +5,7 @@
 	import { Avatar, Name } from "@nostr-dev-kit/ndk-svelte-components";
 	import PaymentRequiredButton from "$components/jobs/PaymentRequiredButton.svelte";
 	import { kindToText } from "$utils";
+	import Time from "svelte-time/src/Time.svelte";
 
     export let item: NDKEvent;
     export let events: NDKEvent[] = [];
@@ -13,7 +14,7 @@
     let jobRequestId: string | undefined;
     let inputs: NDKTag[] = [];
 
-    if (item.kind === 65000 || item.kind === 65001) {
+    if (item.kind! >= 6000 || item.kind! <= 7000) {
         jobRequestId = item.tagValue('e');
         if (jobRequestId) {
             jobRequestId = nip19.noteEncode(jobRequestId);
@@ -39,7 +40,7 @@
 
     function useRelativeTime() {
         const now = Date.now();
-        const diff = now - item.created_at*1000;
+        const diff = now - item.created_at!*1000;
 
         return diff < 1000*60*60*24;
     }
@@ -70,7 +71,7 @@
 
     $: if (events) {
         events.forEach(event => {
-            if (event.kind === 65000 || event.kind === 65001) {
+            if (event.kind! >= 6000 && event.kind! <= 7000) {
                 const dvmPubkey = event.pubkey;
                 if (!dvms[dvmPubkey]) dvms[dvmPubkey] = [];
                 if (dvms[dvmPubkey].some(e => e.id === event.id)) return;
@@ -131,11 +132,11 @@
             <div class="flex-grow"></div>
 
             <div class="flex flex-col">
-                {#if item.kind === 65001}
+                {#if item.kind >= 6000 && item.kind < 7000}
                     <a class="btn btn-neutral" >
                         Result
                     </a>
-                {:else if item.kind === 65000}
+                {:else if item.kind === 7000}
                     {#if !['payment-required'].includes(item.tagValue('status'))}
                         <span>
                             {item.content}
@@ -201,7 +202,7 @@
                 <div class="flex flex-col divide-y divide-base-100">
                     {#each events as event}
                         <div class="whitespace-normal text-lg my-6">{event.content}</div>
-                        {#if event.kind === 65001}
+                        {#if event.kind >= 6000 && event.kind < 7000}
                             <a class="btn btn-neutral" >
                                 Result
                             </a>

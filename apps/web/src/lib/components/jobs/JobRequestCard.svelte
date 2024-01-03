@@ -8,10 +8,6 @@
 	import { type NDKDVMRequest, type NDKTag, type NDKEvent, NDKDVMJobResult, NDKKind, NDKDVMJobFeedback } from "@nostr-dev-kit/ndk";
 	import { Avatar, Name } from "@nostr-dev-kit/ndk-svelte-components";
 	import JobTypeIcon from "./JobTypeIcon.svelte";
-	import { Plus } from "phosphor-svelte";
-	import { slide } from "svelte/transition";
-	import JobRequestEditorModal from "$modals/JobRequestEditorModal.svelte";
-	import { openModal } from "svelte-modals";
 	import JobDvmEventsCard from "./JobDvmEventsCard.svelte";
 	import type { NDKEventStore } from "@nostr-dev-kit/ndk-svelte";
 	import { ElementConnector } from "@kind0/ui-common";
@@ -52,7 +48,7 @@
 
     const results = $ndk.storeSubscribe(
         {
-            kinds: [7, 5, 65000 as number, 65001 as number],
+            kinds: [7, 5, 7000 as number, jobRequest.kind!+1000],
             ...jobRequest.filter(),
         },
         { closeOnEose: false, groupableDelay: 1000 },
@@ -81,7 +77,7 @@
 	let cardHover = false;
     let extraJobInfoText: string = "";
 
-    $: if (jobRequest.kind === 65004) {
+    $: if (jobRequest.kind === 5003) {
         const langTag = jobRequest.getMatchingTags("param")
             .find((t: NDKTag) => ['lang', 'language'].includes(t[1]));
 

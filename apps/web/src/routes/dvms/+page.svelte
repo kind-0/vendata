@@ -10,7 +10,7 @@
     $: $appHandlers.forEach(dvm => dvmPubkeys.add(dvm.pubkey));
 
     const unannouncedDvms = $ndk.storeSubscribe<NDKEvent>({
-        kinds: [65001]
+        kinds: [7000, 65001]
     });
 
     let unannouncedDvmsEvents = new Map<string, NDKEvent>();
